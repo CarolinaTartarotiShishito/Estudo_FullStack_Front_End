@@ -1,8 +1,11 @@
 // console.log('Hello, NodeJS!! ^_^')
 
 const express = require('express') //importando a biblioteca
+const cors = require('cors')
+
 const app = express() //construindo uma aplicação express
 app.use(express.json())
+app.use(cors())
 
 let filmes = [
     {
