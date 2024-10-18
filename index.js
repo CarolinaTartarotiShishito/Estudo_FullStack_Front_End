@@ -1,4 +1,5 @@
 // console.log('Hello, NodeJS!! ^_^')
+//mongodb+srv://carolinashishito:redpepper.14@cluster0.6xmnr.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
 
 const express = require('express') //importando a biblioteca
 const cors = require('cors')
