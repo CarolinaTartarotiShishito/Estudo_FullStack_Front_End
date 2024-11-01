@@ -6,6 +6,7 @@ const cors = require('cors')
 const mongoose = require('mongoose')
 const uniqueValidator = require('mongoose-unique-validator')
 const bcrypt = require('bcrypt')
+const jwt = require('jsonwebtoken')
 const app = express() //construindo uma aplicação express
 app.use(express.json())
 app.use(cors())
@@ -87,6 +88,28 @@ app.post('/signup', async(req, res) => {
         res.status(409).end()
     }
     
+})
+
+app.post('/login', async(req, res) => {
+    const login = req.body.login
+    const password = req.body.password
+
+    const usuarioExiste = await Usuario.findOne({login: login})
+    if(!usuarioExiste) {
+        return res.status(401).json({mensagem: "Login inválido ＞︿＜"})
+    }
+    const senhaValida = await bcrypt.compare(password, usuarioExiste.password)
+
+    if(!senhaValida) {
+        return res.status(401).json({mensagem: "Senha inválida ＞︿＜"})
+    }
+    
+    const token = jwt.sign(
+        {login: login},
+        "id-secreto",
+        {expiresIn: "1h"}
+    )
+    res.status(200).json({token: token})
 })
 
 //listen escuta uma porta (3000 neste caso) e faz uma ação com ela
